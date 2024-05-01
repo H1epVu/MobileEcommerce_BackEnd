@@ -1,5 +1,5 @@
 const User = require('../models/user')
-const CryptoJS = require('crypto-js')
+const jwt = require('jsonwebtoken')
 
 //Login
 exports.login = async (req, res) => {
@@ -13,7 +13,10 @@ exports.login = async (req, res) => {
         if (password != user.password) {
             return res.status(201).json({ message: 'Sai mật khẩu!' })
         }
-        return res.status(200).json({ message: 'ok', user })
+
+        const token = jwt.sign({ email: user.email, userId: user._id.toString() }, 'secret', { expiresIn: '1h' })
+
+        return res.status(200).json({ message: 'ok', token: token, user })
     } catch (error) {
         console.log(error)
     }
