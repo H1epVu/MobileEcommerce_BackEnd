@@ -15,7 +15,7 @@ exports.getProduct = async (req, res) => {
     const prodId = req.params.productId;
     try {
         const product = await Product.findById(prodId)
-        res.status(201).json({ message: "ok", product })
+        res.status(201).json(product)
     } catch (error) {
         console.log(error)
     }
@@ -34,7 +34,7 @@ exports.addProduct = async (req, res) => {
             status: status
         })
         const savedProduct = await product.save()
-        res.status(201).json({ message: "ok", savedProduct })
+        res.status(201).json(savedProduct)
     } catch (error) {
         console.log(error)
     }

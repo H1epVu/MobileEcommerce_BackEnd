@@ -4,18 +4,19 @@ const Order = require('../models/order')
 exports.getOrders = async (req, res) => {
     try {
         const orders = await Order.find();
-        return res.status(201).json({ message: 'ok', orders })
+        return res.status(201).json(orders)
     } catch (error) {
         console.log(error)
         return res.status(404).json({ message: error })
     }
 }
 
+//Get order by Id
 exports.getOrderById = async (req, res) => {
     const id = req.params.orderId
     try {
         const order = await Order.findOne({ _id: id });
-        return res.status(201).json({ message: 'ok', order })
+        return res.status(201).json(order)
     } catch (error) {
         console.log(error)
         return res.status(404).json({ message: error })
@@ -27,7 +28,7 @@ exports.getUserOrders = async (req, res) => {
     const id = req.params.userId
     try {
         const order = await Order.find({ userId: id })
-        return res.status(201).json({ message: 'ok', order })
+        return res.status(201).json(order)
     } catch (error) {
         console.log(error)
         return res.status(404).json({ message: error })

@@ -1,3 +1,4 @@
+const user = require('../models/user')
 const User = require('../models/user')
 const jwt = require('jsonwebtoken')
 
@@ -16,7 +17,7 @@ exports.login = async (req, res) => {
 
         const token = jwt.sign({ email: user.email, userId: user._id.toString() }, 'secret', { expiresIn: '1h' })
 
-        return res.status(200).json({ message: 'ok', token: token, user })
+        return res.status(200).json({ token: token, user })
     } catch (error) {
         console.log(error)
     }
@@ -47,7 +48,7 @@ exports.register = async (req, res) => {
 exports.getAllUser = async (req, res) => {
     try {
         const users = await User.find();
-        return res.status(201).json({ message: 'ok', users })
+        return res.status(201).json(users)
 
     } catch (error) {
         console.log(error)
@@ -59,7 +60,7 @@ exports.getUser = async (req, res) => {
     const id = req.params.id
     try {
         const user = await User.findOne({ _id: id });
-        return res.status(201).json({ message: 'ok', user })
+        return res.status(201).json(user)
     } catch (error) {
         console.log(error)
     }
@@ -73,7 +74,7 @@ exports.getUserByEmail = async (req, res) => {
         if (!user) {
             return res.status(201).json({ message: 'Không tìm thấy người dùng!' });
         }
-        return res.status(201).json({ message: 'ok', user });
+        return res.status(201).json(user);
     } catch (error) {
         console.log(error)
     }
