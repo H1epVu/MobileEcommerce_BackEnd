@@ -72,9 +72,9 @@ exports.getUserByEmail = async (req, res) => {
     try {
         const user = await User.findOne({ email: email });
         if (!user) {
-            return res.status(201).json({ message: 'Không tìm thấy người dùng!' });
+            return res.status(200).json({ message: 'Không tìm thấy người dùng!' });
         }
-        return res.status(201).json(user);
+        return res.status(200).json(user);
     } catch (error) {
         console.log(error)
     }
