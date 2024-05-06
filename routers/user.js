@@ -10,7 +10,7 @@ router.post('/register', userController.register)
 
 router.get('/', authToken, userController.getAllUser)
 router.get('/:id', authToken, userController.getUser)
-router.post('/find/email', authToken, userController.getUserByEmail)
+router.post('/find/email', userController.getUserByEmail)
 router.post('/update', authToken, userController.updateUser)
 router.delete('/delete/:id', authToken, userController.deleteUser)
 
