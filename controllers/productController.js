@@ -21,7 +21,7 @@ exports.getProduct = async (req, res) => {
     }
 }
 
-//Get Product by Id
+//Get Product by Name
 exports.getProductByName = async (req, res) => {
     const prodName = req.params.productName;
     try {
