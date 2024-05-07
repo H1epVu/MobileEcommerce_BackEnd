@@ -26,6 +26,9 @@ const userSchema = new Schema({
     role: {
         type: String,
         required: true
+    },
+    resetToken: {
+        type: String
     }
 })
 
