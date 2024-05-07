@@ -7,6 +7,7 @@ const productRouters = require('./routers/product')
 const userRouters = require('./routers/user')
 const orderRouters = require('./routers/order')
 const paymentRouters = require('./routers/payment')
+const mailRouters = require('./routers/mail')
 const paypal = require('paypal-rest-sdk');
 
 // Configure PayPal SDK with client ID and secret
@@ -34,6 +35,7 @@ app.use('/product', productRouters)
 app.use('/user', userRouters)
 app.use('/order', orderRouters)
 app.use('/payment', paymentRouters)
+app.use('/mail', mailRouters)
 
 const PORT = process.env.PORT || 8080
 
