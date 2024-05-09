@@ -12,6 +12,7 @@ const transporter = nodemailer.createTransport({
     }
 });
 
+//Send resetToken
 exports.sendMail = async (req, res) => {
     const { email } = req.body;
 
