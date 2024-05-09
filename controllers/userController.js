@@ -81,14 +81,15 @@ exports.getUserByEmail = async (req, res) => {
 
 //Update User
 exports.updateUser = async (req, res) => {
-    const { id, name, phone, email, password, address } = req.body;
+    const { id, name, phone, email, password, address, resetToken } = req.body;
     try {
         const data = {
             name: name,
             phone: phone,
             email: email,
             address: address,
-            password: password
+            password: password,
+            resetToken: resetToken
         }
         const user = await User.findOneAndUpdate({ _id: id }, data);
         res.json({ message: 'Người dùng đã được cập nhật', updatedUser: user });
@@ -109,3 +110,18 @@ exports.deleteUser = async (req, res) => {
         console.log(error)
     }
 }
+
+//Verify Token
+exports.verifyToken = async (req, res) => {
+    const { email, resetToken } = req.body;
+    try {
+        const user = await User.findOne({ email: email, resetToken: resetToken });
+        if (!user) {
+            return res.status(200).json({ message: 'Token không hợp lệ!' });
+        }
+        res.status(200).json({ message: 'Token hợp lệ!', userId: user._id });
+    } catch (error) {
+        console.error('Lỗi:', error);
+        res.status(500).json({ message: 'Lỗi không xác thực thành công.' });
+    }
+};
