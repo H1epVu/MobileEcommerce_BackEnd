@@ -3,6 +3,7 @@ const bodyParser = require('body-parser')
 
 const mongoose = require('mongoose');
 
+const authRouters = require('./routers/auth')
 const productRouters = require('./routers/product')
 const userRouters = require('./routers/user')
 const orderRouters = require('./routers/order')
@@ -31,6 +32,7 @@ app.use((req, res, next) => {
     next();
 })
 
+app.use('/auth', authRouters)
 app.use('/product', productRouters)
 app.use('/user', userRouters)
 app.use('/order', orderRouters)

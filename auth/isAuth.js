@@ -22,3 +22,17 @@ exports.authToken = (req, res, next) => {
     req.userId = decodedToken.userId;
     next();
 }
+
+
+exports.createToken = (req, res) => {
+    const { userId } = req.body;
+
+    try {
+        const token = jwt.sign({ userId }, 'secret', { expiresIn: '1h' });
+        res.status(200).json({ token });
+
+    } catch (error) {
+        console.error('Error creating Token:', error);
+        res.status(500).json({ message: 'Something went wrong!' });
+    }
+}
