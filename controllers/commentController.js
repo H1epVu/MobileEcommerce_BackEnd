@@ -54,3 +54,27 @@ exports.deleteComment = async (req, res) => {
         return res.status(404).json({ message: error })
     }
 }
+
+//Reply
+exports.addReply = async (req, res) => {
+    const { cmtId, userId, email, content } = req.body;
+    try {
+        const newReply = {
+            userId: userId,
+            email: email,
+            content: content
+        };
+
+        const updatedComment = await Comment.findByIdAndUpdate(
+            cmtId,
+            { $push: { replies: newReply } },
+            { new: true }
+        );
+
+        return res.status(201).json({ message: "ok", updatedComment });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ message: "Đã xảy ra lỗi khi thêm phản hồi!" });
+    }
+};
+
