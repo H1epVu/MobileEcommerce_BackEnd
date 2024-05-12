@@ -10,5 +10,6 @@ router.post('/add', authToken, commentController.addComment);
 router.delete('/delete/:id', authToken, commentController.deleteComment)
 
 router.post('/reply/add', commentController.addReply);
+router.delete('/delete/:cmtId/:replyId', commentController.deleteReply)
 
 module.exports = router;

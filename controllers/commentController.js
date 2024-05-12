@@ -78,3 +78,19 @@ exports.addReply = async (req, res) => {
     }
 };
 
+exports.deleteReply = async (req, res) => {
+    const { cmtId, replyId } = req.params;
+
+    try {
+        await Comment.findOneAndUpdate(
+            { _id: cmtId },
+            { $pull: { replies: { _id: replyId } } },
+            { new: true }
+        );
+
+        res.json({ message: 'ok' })
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Đã xảy ra lỗi khi xóa!' });
+    }
+}
