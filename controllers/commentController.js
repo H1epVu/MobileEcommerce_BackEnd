@@ -18,7 +18,7 @@ exports.addComment = async (req, res) => {
     }
 }
 
-exports.getComment = async (req, res) => {
+exports.getProductComment = async (req, res) => {
     const { prodId } = req.params
     try {
         const comments = await Comment.find({ productId: prodId })
@@ -26,6 +26,17 @@ exports.getComment = async (req, res) => {
             return res.status(200).json(comments)
         }
         return res.status(200).json([])
+    } catch (error) {
+        console.log(error)
+        return res.status(404).json({ message: error })
+    }
+}
+
+exports.getCommentById = async (req, res) => {
+    const { id } = req.params
+    try {
+        const comment = await Comment.findById(id)
+        return res.status(200).json(comment)
     } catch (error) {
         console.log(error)
         return res.status(404).json({ message: error })
