@@ -34,7 +34,7 @@ exports.getProductByName = async (req, res) => {
 
 //Add Product
 exports.addProduct = async (req, res) => {
-    const { name, price, imageUrl, description, status } = req.body;
+    const { name, price, imageUrl, description, quantity, status } = req.body;
 
     try {
         const product = new Product({
@@ -42,6 +42,7 @@ exports.addProduct = async (req, res) => {
             price: price,
             imageUrl: imageUrl,
             description: description,
+            quantity: quantity,
             status: status
         })
         const savedProduct = await product.save()
@@ -53,13 +54,14 @@ exports.addProduct = async (req, res) => {
 
 //Update Product
 exports.updateProduct = async (req, res) => {
-    const { id, name, price, imageUrl, description, status } = req.body;
+    const { id, name, price, imageUrl, description, quantity, status } = req.body;
     try {
         const data = {
             name: name,
             price: price,
             imageUrl: imageUrl,
             description: description,
+            quantity: quantity,
             status: status
         }
         const prod = await Product.findOneAndUpdate({ _id: id }, data);
