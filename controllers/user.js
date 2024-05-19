@@ -14,7 +14,7 @@ exports.login = async (req, res) => {
             return res.status(201).json({ message: 'Sai mật khẩu!' })
         }
 
-        const token = jwt.sign({ email: user.email, userId: user._id.toString() }, 'secret', { expiresIn: '1h' })
+        const token = jwt.sign({ email: user.email, userId: user._id.toString() }, 'secret', { expiresIn: '10h' })
 
         return res.status(200).json({ token: token, user })
     } catch (error) {
@@ -64,20 +64,6 @@ exports.getUser = async (req, res) => {
         console.log(error)
     }
 }
-
-//Get User By Email
-exports.getUserByEmail = async (req, res) => {
-    const { email } = req.body;
-    try {
-        const user = await User.findOne({ email: email });
-        if (!user) {
-            return res.status(200).json({ message: 'Không tìm thấy người dùng!' });
-        }
-        return res.status(200).json(user);
-    } catch (error) {
-        console.log(error)
-    }
-};
 
 //Update User
 exports.updateUser = async (req, res) => {

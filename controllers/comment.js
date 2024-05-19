@@ -18,10 +18,9 @@ exports.addComment = async (req, res) => {
     }
 }
 
-exports.getProductComment = async (req, res) => {
-    const { prodId } = req.params
+exports.getAllComment = async (req, res) => {
     try {
-        const comments = await Comment.find({ productId: prodId })
+        const comments = await Comment.find()
         if (comments.length >= 0) {
             return res.status(200).json(comments)
         }
@@ -43,18 +42,7 @@ exports.getCommentById = async (req, res) => {
     }
 }
 
-exports.getAllComment = async (req, res) => {
-    try {
-        const comments = await Comment.find()
-        if (comments.length >= 0) {
-            return res.status(200).json(comments)
-        }
-        return res.status(200).json([])
-    } catch (error) {
-        console.log(error)
-        return res.status(404).json({ message: error })
-    }
-}
+
 
 exports.deleteComment = async (req, res) => {
     const { id } = req.params

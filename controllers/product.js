@@ -21,17 +21,6 @@ exports.getProduct = async (req, res) => {
     }
 }
 
-//Get Product by Name
-exports.getProductByName = async (req, res) => {
-    const prodName = req.params.productName;
-    try {
-        const products = await Product.find({ name: { $regex: prodName, $options: 'i' } })
-        res.status(201).json(products)
-    } catch (error) {
-        console.log(error)
-    }
-}
-
 //Add Product
 exports.addProduct = async (req, res) => {
     const { name, price, imageUrl, description, quantity, status } = req.body;
@@ -65,7 +54,7 @@ exports.updateProduct = async (req, res) => {
             status: status
         }
         const prod = await Product.findOneAndUpdate({ _id: id }, data);
-        res.json({ message: 'Sản phẩm đã được cập nhật', updatedProduct: prod });
+        res.status(201).json({ message: 'Sản phẩm đã được cập nhật', updatedProduct: prod });
 
     } catch (error) {
         console.log(error);
