@@ -10,14 +10,6 @@ const commentRouters = require('./routers/comment')
 const orderRouters = require('./routers/order')
 const paymentRouters = require('./routers/payment')
 const mailRouters = require('./routers/mail')
-const paypal = require('paypal-rest-sdk');
-
-// Configure PayPal SDK with client ID and secret
-paypal.configure({
-    'mode': 'sandbox',
-    'client_id': process.env.CLIENT_ID,
-    'client_secret': process.env.CLIENT_SECRET
-});
 
 require('dotenv').config()
 
