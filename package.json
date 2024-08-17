@@ -4,9 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon app.js",
-    "build": "babel src -d lib"
+    "start": "npm run build && node src/app.js",
+    "build": "babel src -d dist"
   },
   "author": "",
   "license": "ISC",
