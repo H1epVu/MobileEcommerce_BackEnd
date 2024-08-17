@@ -8,7 +8,7 @@ exports.createPayment = (req, res) => {
     });
 
     var { cartItems, total, userId } = req.body
-    
+
     var create_payment_json = {
         intent: "authorize",
         payer: {
@@ -44,7 +44,6 @@ exports.createPayment = (req, res) => {
         } else {
             for (let index = 0; index < payment.links.length; index++) {
                 if (payment.links[index].rel === 'approval_url') {
-                    console.log(payment)
                     return res.status(201).json({ data: (payment.links[index].href) })
                 }
             }
