@@ -3,13 +3,13 @@ const bodyParser = require('body-parser')
 
 const mongoose = require('mongoose');
 
-const authRouters = require('./routers/auth')
-const productRouters = require('./routers/product')
-const userRouters = require('./routers/user')
-const commentRouters = require('./routers/comment')
-const orderRouters = require('./routers/order')
-const paymentRouters = require('./routers/payment')
-const mailRouters = require('./routers/mail')
+const authRouters = require('../routers/auth')
+const productRouters = require('../routers/product')
+const userRouters = require('../routers/user')
+const commentRouters = require('../routers/comment')
+const orderRouters = require('../routers/order')
+const paymentRouters = require('../routers/payment')
+const mailRouters = require('../routers/mail')
 
 require('dotenv').config()
 
