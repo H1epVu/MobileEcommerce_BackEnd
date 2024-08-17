@@ -5,9 +5,10 @@ exports.getProductByName = async (req, res) => {
     const prodName = req.params.productName;
     try {
         const products = await Product.find({ name: { $regex: prodName, $options: 'i' } })
-        res.status(201).json(products)
+        res.status(201).json(products)  // Sử dụng mã trạng thái 201
     } catch (error) {
         console.log(error)
+        res.status(404).json({ message: 'Không tìm thấy sản phẩm.' });
     }
 }
 
