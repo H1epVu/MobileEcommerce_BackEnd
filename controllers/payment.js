@@ -8,8 +8,7 @@ exports.createPayment = (req, res) => {
     });
 
     var { cartItems, total, userId } = req.body
-    console.log(cartItems)
-
+    
     var create_payment_json = {
         intent: "authorize",
         payer: {

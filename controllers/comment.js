@@ -1,60 +1,62 @@
-const Comment = require('../models/comment')
+const Comment = require('../models/comment');
 
 exports.addComment = async (req, res) => {
-    const { userId, prodId, content, email } = req.body
+    const { userId, prodId, content, email } = req.body;
     try {
         const cmt = new Comment({
             userId: userId,
             productId: prodId,
             email: email,
             content: content
-        })
+        });
 
-        const savedCmt = await cmt.save()
-        return res.status(201).json({ message: "ok", savedCmt })
+        const savedCmt = await cmt.save();
+        return res.status(201).json({ message: "ok", savedCmt });
     } catch (error) {
-        console.log(error)
-        return res.status(404).json({ message: error })
+        console.log(error);
+        return res.status(500).json({ message: 'Đã xảy ra lỗi khi thêm bình luận!' });
     }
-}
+};
 
 exports.getAllComment = async (req, res) => {
     try {
-        const comments = await Comment.find()
-        if (comments.length >= 0) {
-            return res.status(200).json(comments)
-        }
-        return res.status(200).json([])
+        const comments = await Comment.find();
+        return res.status(200).json(comments);
     } catch (error) {
-        console.log(error)
-        return res.status(404).json({ message: error })
+        console.log(error);
+        return res.status(500).json({ message: 'Đã xảy ra lỗi khi lấy danh sách bình luận!' });
     }
-}
+};
 
 exports.getCommentById = async (req, res) => {
-    const { id } = req.params
+    const { id } = req.params;
     try {
-        const comment = await Comment.findById(id)
-        return res.status(200).json(comment)
+        const comment = await Comment.findById(id);
+        if (!comment) {
+            return res.status(404).json({ message: 'Không tìm thấy bình luận!' });
+        }
+        return res.status(200).json(comment);
     } catch (error) {
-        console.log(error)
-        return res.status(404).json({ message: error })
+        console.log(error);
+        return res.status(500).json({ message: 'Đã xảy ra lỗi khi lấy bình luận!' });
     }
-}
-
-
+};
 
 exports.deleteComment = async (req, res) => {
-    const { id } = req.params
+    const { id } = req.params;
     try {
-        await Comment.deleteOne({ _id: id })
-        res.status(200).json({ message: "ok" })
+        const deletedComment = await Comment.deleteOne({ _id: id });
+        if (deletedComment.deletedCount === 0) {
+            return res.status(404).json({ message: 'Không tìm thấy bình luận để xóa!' });
+        }
+        return res.status(200).json({ message: "ok" });
     } catch (error) {
-        return res.status(404).json({ message: error })
+        console.log(error);
+        return res.status(500).json({ message: 'Đã xảy ra lỗi khi xóa bình luận!' });
     }
-}
+};
 
-//Reply
+// Reply
 exports.addReply = async (req, res) => {
     const { cmtId, userId, email, content } = req.body;
     try {
@@ -70,10 +72,14 @@ exports.addReply = async (req, res) => {
             { new: true }
         );
 
+        if (!updatedComment) {
+            return res.status(404).json({ message: 'Không tìm thấy bình luận để phản hồi!' });
+        }
+
         return res.status(201).json({ message: "ok", updatedComment });
     } catch (error) {
         console.log(error);
-        return res.status(500).json({ message: "Đã xảy ra lỗi khi thêm phản hồi!" });
+        return res.status(500).json({ message: 'Đã xảy ra lỗi khi thêm phản hồi!' });
     }
 };
 
@@ -81,15 +87,19 @@ exports.deleteReply = async (req, res) => {
     const { cmtId, replyId } = req.params;
 
     try {
-        await Comment.findOneAndUpdate(
+        const updatedComment = await Comment.findOneAndUpdate(
             { _id: cmtId },
             { $pull: { replies: { _id: replyId } } },
             { new: true }
         );
 
-        res.json({ message: 'ok' })
+        if (!updatedComment) {
+            return res.status(404).json({ message: 'Không tìm thấy phản hồi để xóa!' });
+        }
+
+        return res.status(200).json({ message: 'ok' });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: 'Đã xảy ra lỗi khi xóa!' });
+        return res.status(500).json({ message: 'Đã xảy ra lỗi khi xóa phản hồi!' });
     }
-}
+};
