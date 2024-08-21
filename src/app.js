@@ -1,4 +1,5 @@
 const express = require('express')
+const cors = require("cors")
 const bodyParser = require('body-parser')
 
 const mongoose = require('mongoose');
@@ -18,12 +19,7 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json())
 
-app.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', process.env.ACCESS_CONTROL_ALLOW_ORIGIN);
-    res.setHeader('Access-Control-Allow-Methods', process.env.ACCESS_CONTROL_ALLOW_METHODS);
-    res.setHeader('Access-Control-Allow-Headers', process.env.ACCESS_CONTROL_ALLOW_HEADERS);
-    next();
-})
+app.use(cors({ origin: true }))
 
 app.use('/auth', authRouters)
 app.use('/product', productRouters)
