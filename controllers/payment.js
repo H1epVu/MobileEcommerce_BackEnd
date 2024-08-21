@@ -15,8 +15,8 @@ exports.createPayment = (req, res) => {
             payment_method: "paypal"
         },
         redirect_urls: {
-            return_url: process.env.REACT_BASE_URL + `paymentSuccess`,
-            cancel_url: process.env.REACT_BASE_URL + `paymentCancel`
+            return_url: process.env.NEXT_BASE_URL + `paymentSuccess`,
+            cancel_url: process.env.NEXT_BASE_URL + `paymentCancel`
         },
         transactions: [{
             item_list: {
