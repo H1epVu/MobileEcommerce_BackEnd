@@ -2,7 +2,7 @@ const paypal = require('paypal-rest-sdk');
 
 exports.createPayment = (req, res) => {
     paypal.configure({
-        'mode': 'sandbox',
+        'mode': process.env.CLIENT_MODE,
         'client_id': process.env.CLIENT_ID,
         'client_secret': process.env.CLIENT_SECRET
     });
