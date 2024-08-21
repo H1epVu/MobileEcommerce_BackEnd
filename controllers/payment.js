@@ -16,7 +16,7 @@ exports.createPayment = (req, res) => {
         },
         redirect_urls: {
             return_url: process.env.REACT_BASE_URL + `paymentSuccess`,
-            cancel_url: process.env.REACT_BASE_URL +  `paymentCancel`
+            cancel_url: process.env.REACT_BASE_URL + `paymentCancel`
         },
         transactions: [{
             item_list: {
@@ -53,20 +53,18 @@ exports.createPayment = (req, res) => {
 };
 
 exports.paymentSuccess = (req, res) => {
+    const { paymentId, PayerId } = req.query
 
-    const paymentId = req.query.paymentId;
-    const payerId = req.query.PayerId;
-
-    var execute_payment_json = {
-        "payer_id": payerId
+    const execute_payment_json = {
+        "payer_id": PayerId
     };
 
     paypal.payment.execute(paymentId, execute_payment_json, function (error, payment) {
         if (error) {
-            console.log(error.response);
-            throw error;
+            console.error('Lỗi từ PayPal:', error.response);
+            return res.status(500).json({ error: 'Lỗi khi thực hiện thanh toán' });
         } else {
-            return res.status(201).json({ payment })
+            return res.status(200).json({ payment });
         }
     });
-}
+};
