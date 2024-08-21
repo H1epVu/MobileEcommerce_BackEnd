@@ -14,7 +14,11 @@ exports.login = async (req, res) => {
             return res.status(401).json({ message: 'Sai mật khẩu!' });
         }
 
-        const token = jwt.sign({ email: user.email, userId: user._id.toString() }, 'secret', { expiresIn: '10h' });
+        const token = jwt.sign(
+            { email: user.email, userId: user._id.toString(), role: user.role },
+            'secret',
+            { expiresIn: '10h' }
+        );
 
         return res.status(200).json({ token: token, user });
     } catch (error) {
@@ -74,7 +78,7 @@ exports.getUser = async (req, res) => {
 
 // Update User
 exports.updateUser = async (req, res) => {
-    const { id, name, phone, email, password, address, resetToken } = req.body;
+    const { id, name, phone, email, password, address, role, resetToken } = req.body;
     try {
         const data = {
             name: name,
@@ -82,6 +86,7 @@ exports.updateUser = async (req, res) => {
             email: email,
             address: address,
             password: password,
+            role: role,
             resetToken: resetToken
         };
         const user = await User.findOneAndUpdate({ _id: id }, data, { new: true });
