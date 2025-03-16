@@ -1,0 +1,23 @@
+# MobileEcommerce_BackEnd
+
+## Introduction
+
+The MobileEcommerce_BackEnd application is the backend system for a mobile e-commerce platform, providing essential functions for managing products, orders, users, payments, and notifications. The application is built following the Model-View-Controller (MVC) architecture to ensure a clear separation of concerns and maintainability.
+
+## Description
+
+The application provides the following main functions:
+
+- **Product Management**: Add, edit, delete, and view product information.
+- **Order Management**: Create, update, and track order status.
+- **User Management**: Register, log in, and manage user information.
+- **Payment**: Integrate online payment methods.
+- **Notifications**: Send push notifications to users about order status and promotions.
+
+## Technologies Used
+
+- **Programming Languages**: JavaScript, Node.js
+- **Framework**: Express.js
+- **Database**: MongoDB
+- **Authentication and Authorization**: JSON Web Tokens (JWT)
+- **Payment**: PaypalSDK
