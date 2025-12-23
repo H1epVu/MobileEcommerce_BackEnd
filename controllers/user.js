@@ -1,5 +1,6 @@
 const User = require('../models/user');
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 
 // Login
 exports.login = async (req, res) => {
@@ -10,13 +11,16 @@ exports.login = async (req, res) => {
         if (!user) {
             return res.status(404).json({ message: 'Không tìm thấy người dùng!' });
         }
-        if (password !== user.password) {
+        
+        // Use bcrypt to compare hashed password
+        const isValidPassword = await bcrypt.compare(password, user.password);
+        if (!isValidPassword) {
             return res.status(401).json({ message: 'Sai mật khẩu!' });
         }
 
         const token = jwt.sign(
             { email: user.email, userId: user._id.toString(), role: user.role },
-            'secret',
+            process.env.JWT_SECRET || 'secret',
             { expiresIn: '10h' }
         );
 
@@ -32,12 +36,16 @@ exports.register = async (req, res) => {
     const { name, phone, email, address, password, role } = req.body;
 
     try {
+        // Hash password before saving
+        const saltRounds = 12;
+        const hashedPassword = await bcrypt.hash(password, saltRounds);
+        
         const user = new User({
             name: name,
             phone: phone,
             email: email,
             address: address,
-            password: password,
+            password: hashedPassword,
             role: role
         });
 
@@ -85,10 +93,16 @@ exports.updateUser = async (req, res) => {
             phone: phone,
             email: email,
             address: address,
-            password: password,
             role: role,
             resetToken: resetToken
         };
+        
+        // Only hash password if it's being updated
+        if (password) {
+            const saltRounds = 12;
+            data.password = await bcrypt.hash(password, saltRounds);
+        }
+        
         const user = await User.findOneAndUpdate({ _id: id }, data, { new: true });
         if (user) {
             res.status(200).json({ message: 'Người dùng đã được cập nhật', updatedUser: user });
