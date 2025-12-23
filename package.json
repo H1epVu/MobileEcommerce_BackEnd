@@ -5,12 +5,14 @@
   "main": "index.js",
   "scripts": {
     "start": "npm run build && node src/app.js",
-    "build": "babel src -d dist"
+    "build": "babel src -d dist",
+    "test": "jest --coverage"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "axios": "^1.6.8",
+    "bcrypt": "^5.1.1",
     "body-parser": "^1.20.2",
     "cors": "^2.8.5",
     "crypto-js": "^4.2.0",
@@ -26,6 +28,8 @@
     "@babel/cli": "^7.24.1",
     "@babel/core": "^7.24.4",
     "@babel/preset-env": "^7.24.4",
-    "nodemon": "^3.1.0"
+    "jest": "^29.7.0",
+    "nodemon": "^3.1.0",
+    "supertest": "^6.3.4"
   }
 }
